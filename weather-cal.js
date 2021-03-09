@@ -18,6 +18,8 @@ Happy scripting!
 */
 
 // Specify the layout of the widget items.
+
+/*
 const layout = `
   
   row 
@@ -34,6 +36,21 @@ const layout = `
       space
        
 `
+*/
+
+
+const layout = `
+  
+  row 
+    column
+      date
+      week
+    
+      sunset
+      events
+`
+
+
 
 /*
  * CODE
