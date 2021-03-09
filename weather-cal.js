@@ -51,6 +51,12 @@ const layout = `
 `
 
 
+const settings = {
+  setupMode: false,
+  openApp: 'googlecalendar'
+}
+
+
 
 /*
  * CODE
@@ -94,15 +100,28 @@ if (config.runsInApp) {
   if (!preview) return
 }
 
-// Set up the widget.
-const widget = await code.createWidget(layout, Script.name(), iCloudInUse, custom)
-Script.setWidget(widget)
+if (config.runsInWidget) {
 
-// If we're in app, display the preview.
-if (config.runsInApp) {
-  if (preview == "small") { widget.presentSmall() }
-  else if (preview == "medium") { widget.presentMedium() }
-  else { widget.presentLarge() }
+  // Set up the widget.
+  const widget = await code.createWidget(layout, Script.name(), iCloudInUse)
+  Script.setWidget(widget)
+
+  // If we're in app, display the     preview.
+  if (config.runsInApp) {
+    if (preview == "small") { widget.presentSmall() }
+    else if (preview == "medium")  { widget.presentMedium() }
+    else { widget.presentLarge() }
+  }
+
+} else {
+  
+  const appleDate = new Date("2001/01/01");
+  const timestamp = (new Date().getTime() - appleDate.getTime()) / 1e3;
+  const callback = new CallbackURL(
+      `${settings.openApp}:` + timestamp
+    );
+  callback.open();
+
 }
 
 Script.complete()
